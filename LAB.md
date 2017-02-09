@@ -29,9 +29,10 @@ that made them as well as the actors in the film.
 {
   title: <name-of-film>,
   studio: <fk-to-studio>,
+  released: <date-with-year>
   actors: [fk-to-actor],
   reviews: [
-    <review-subdocument>
+    review-subdocument
   ]
 }
 ```
@@ -61,15 +62,17 @@ that made them as well as the actors in the film.
 route | returns
 ---|---
 `GET /studios` | [ { name } ]
-`GET /studios/:id | { name, address, films: [ title ] }
-`GET /films | [{ title, studio.name }]
-`GET /films/:id | { title, studio.name, actors: [ name ] }
+`GET /studios/:id` | { name, address, films: [ title ] }
+`GET /films` | [{ title, studio.name }]
+`GET /films/:id` | { title, studio.name, actors: [ name ] }
 `GET /actors` | { name, dob }
 `GET /actors/:id` | { name, dob }
 
 #### POST/PATCH
 
 Studio, Films, and Actors can be added or updated.
+
+Actors and reviews are added to films by updating the film.
 
 #### DELETE
 
@@ -80,8 +83,11 @@ actors cannot be deleted who are in films.
 
 * Write appropriate model and E2E/API tests.
 
+## Bonus
 
-#### Rubric:
+Move your population logic for films into the film schema.
+
+## Rubric:
 
 * Models: 5pts
 * Relationships: 5pts
