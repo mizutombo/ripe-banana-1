@@ -10,6 +10,8 @@ that made them as well as the actors in the film.
 
 ### Models
 
+<img alt="models" src="/models.jpg" height="150">
+
 #### Studio
 
 ```
