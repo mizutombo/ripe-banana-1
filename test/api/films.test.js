@@ -5,8 +5,8 @@ chai.use(chaiHttp);
 
 // start db ... store connection ... clear db
 const connection = require('../lib/connection');
-const app = require('../../lib/app');
-const body = require('../../lib/routes/parse-body');
+const app = require('../lib/app');
+const body = require('../lib/routes/parse-body');
 
 describe('films', () => {
 
