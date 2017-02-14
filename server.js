@@ -1,5 +1,5 @@
 const app = require('./lib/app');
-require('./lib/connection');
+require('./lib/connection'); // executes mongoose.connect()
 const http = require('http');
 
 const server = http.createServer(app);
