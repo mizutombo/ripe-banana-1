@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Warner Bros.",
+        "address": {
+            "city": "Burbank",
+            "state": "California",
+            "country": "USA"
+        }
+    },
+    {
+        "name": "Marvel Studios",
+        "address": {
+            "city": "Burbank",
+            "state": "California",
+            "country": "USA"
+        }
+    },
+    {
+        "name": "Mutual Film Company",
+        "address": {
+            "city": "Hollywood",
+            "state": "California",
+            "country": "USA"
+        }
+    },
+    {
+        "name": "American Zoetrope",
+        "address": {
+            "city": "San Francisco",
+            "state": "California",
+            "country": "USA"
+        }
+    }
+]
