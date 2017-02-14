@@ -1,12 +1,57 @@
 [
     {   
-        "name": "Charlie Chaplin",
-        "dob": "1884-04-16"
+        "name": "Robert Downey, Jr.",
+        "dob": "2000-01-01"
     },
 
     {
-        "name": "Joe Smith",
-        "dob": "2017-01-01"
+        "name": "Chris Evans",
+        "dob": "2000-02-02"
+    },
+
+    {   
+        "name": "Scarlett Johansson",
+        "dob": "2000-03-03"
+    },
+
+    {
+        "name": "Mark Ruffalo",
+        "dob": "2000-04-04"
+    },
+
+    {   
+        "name": "Samuel L. Jackson",
+        "dob": "2000-05-05"
+    },
+
+    {
+        "name": "Julianna Margulies",
+        "dob": "2000-06-06"
+    },
+
+    {   
+        "name": "Nathan Phillips",
+        "dob": "2000-07-07"
+    },
+
+    {
+        "name": "Bill Murray",
+        "dob": "2000-08-08"
+    },
+
+    {   
+        "name": "Giovanni Ribisi",
+        "dob": "2000-09-09"
+    },
+
+    {
+        "name": "Jude Law",
+        "dob": "2000-10-10"
+    },
+
+    {   
+        "name": "Rachel McAdams",
+        "dob": "2000-11-11"
     }
 
 ]
