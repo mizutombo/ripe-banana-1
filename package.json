@@ -4,9 +4,9 @@
   "description": "model relationships using mongoose",
   "main": "server.js",
   "scripts": {
-    "lint": "eslint .",
-    "pretest": "npm run lint",
-    "test": "mocha",
+    // "lint": "eslint",
+    // "pretest": "npm run lint",
+    "test": "mocha --recursive",
     "start": "nodemon server.js"
   },
   "repository": {
