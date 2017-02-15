@@ -4,7 +4,7 @@ const studio = new Studio();
 // const mongoose = require('mongoose');
 // mongoose.Promise = Promise;
 
-describe.only('Studio model', () => {
+describe.skip('Studio model', () => {
 
     // function testHasValidationError(data) {
     //     return new Studio(data)
