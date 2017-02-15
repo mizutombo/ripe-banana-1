@@ -4,38 +4,20 @@ const assert = chai.assert;
 chai.use(chaiHttp);
 
 // start db ... store connection ... clear db
-const connection = require('../lib/connection');
-const app = require('../lib/app');
-const body = require('../lib/routes/parse-body');
-const parseBody = require('body-parser');
+process.env.MONGODB_URI = 'mongodb://localhost:27017/films-test';
+const connection = require('../../lib/connection');
+const mongoose = require('mongoose');
+const app = require('../../lib/app');
 
-describe('films', () => {
+// const parseBody = require('body-parser').json();
 
-	// before(done => {
-	// 	const drop = () => connection.db.dropDatabase(done);
-	// 	if (connection.readyState === 1) drop();
-	// 	else connection.on('open', drop);
-	// });
+describe('films REST HTTP API', () => {
 
-	// before(done => {
-	// 	const CONNECTED = 1;
-	// 	if (connection.readyState === CONNECTED) dropCollection();
-	// 	else connection.on('open', dropCollection);
-
-	// 	function dropCollection()	{
-	// 		const name = 'films';
-	// 		connection.db
-	// 			.listCollections({name})
-	// 			.next((err, collinfo) => {
-	// 				if (!collinfo) return done();
-	// 				connection.db.dropCollection(name, done);
-	// 			});
-	// 	}
-	// });
+	before(() => mongoose.connection.dropDatabase());
 
 	const request = chai.request(app);
 
-	const testFilm = {
+	const godzilla = {
 		title: 'Godzilla',
 		studio: 'Toho',
 		released: '1954-11-3',
@@ -43,53 +25,88 @@ describe('films', () => {
 		reviews: ''
 	};
 
-	it('/GET all films', done => {
-		request
-			.get('/Films')
-			.then(res => {
-				assert.deepEqual(res.body, []);
-				done();
-			})
-			.catch(done);
+	let mothra = {
+		title: 'Mothra',
+		studio: 'Toho',
+		released: '1961-6-30',
+		actors: 'Frankie Sakai',
+		reviews: ''
+	};
+
+	let invasion_of_astro_monster = {
+		title: 'Invasion of Astro-Monster',
+		studio: 'Toho',
+		released: '1965-12-19',
+		actors: 'Akira Takarada',
+		reviews: ''
+	};	
+
+	it('/GET returns empty array of films', () => { // passes test
+		return request.get('/films')
+			.then(req => req.body)
+			.then(films => assert.deepEqual(films, []));
 	});
 
-	it('/POST film', done => {
-		request
-			.post('/Films')
-			.send(testFilm)
-			.then(res => {
-				const film = res.body;
-				assert.ok(film._id);
-				testFilm.__v = 0;
-				testFilm._id = film._id;
-				done();
-			})
-			.catch(done);
-	}); 
+	function saveFilm(film) {
+		return request.post('/films')
+			.send(film)
+			.then(res => res.body);
+	}
 
-	it('/GET all films after post', done => {
-		request
-			.get('/Films')
-			.then(res => {
-				assert.deepEqual(res.body, [testFilm]);
-				done();
-			})
-			.catch(done);
+	it('/POST saves a film', () => {
+		return saveFilm(godzilla);
+			// .then(savedFilm => {
+			// 	assert.isOk(savedFilm._id);
+			// 	godzilla._id = savedFilm._id;
+			// 	godzilla.__v = 0;
+			// 	assert.deepEqual(savedFilm, godzilla);
+			// });
 	});
 
-	it('/DELETE testFilm', done => {
-		request
-			.del(`/Films/${testFilm._id}`)
+	it('/GET retrieves saved film', done => {
+		return request.get(`/films/${godzilla._id}`)
 			.then(res => {
-				testFilm.__v = 0;
-				assert.deepEqual(res.body, testFilm);
+				assert.deepEqual(res.body, godzilla);
 				done();
+			});
+	});
+
+	it('/GET returns list of all films after POST', () => {
+		return Promise.all([
+			saveFilm(mothra),
+			saveFilm(invasion_of_astro_monster)
+		])
+		.then(savedFilms => {
+			mothra = savedFilms[0];
+			invasion_of_astro_monster = savedFilms[1];
+		})
+		.then(() => request.get('/films'))
+		.then(res => {
+			const films = res.body;
+			assert.deepEqual(films, [godzilla, mothra, invasion_of_astro_monster]);
+		});
+	});
+
+	it('/PUT updates films with new data', () => {
+		invasion_of_astro_monster.title = 'Monster Zero';
+		const url = `/films/${invasion_of_astro_monster._id}`;
+
+		return request.put(url)
+			.send(invasion_of_astro_monster)
+			.then(res => {
+				assert.deepEqual(res.body, invasion_of_astro_monster);
+				return request.get(url);
 			})
-			.catch(done);
+			.then(res => {
+				assert.deepEqual(res.body, invasion_of_astro_monster);
+			});
 	});
 
-	after(done => {connection.close(done);
+	it('/DELETE film from films list', () => {
+		return request.del(`/films/${mothra._id}`)
+			.then(res => {
+				assert.isTrue(res.body.deleted);
+			});
 	});
-
 
 });
