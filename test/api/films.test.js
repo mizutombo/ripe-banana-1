@@ -8,7 +8,7 @@ const connection = require('../../lib/connection');
 const app = require('../../lib/app');
 const parseBody = require('body-parser');
 
-describe.skip('films', () => {
+describe('films', () => {
 
 	// before(done => {
 	// 	const drop = () => connection.db.dropDatabase(done);
