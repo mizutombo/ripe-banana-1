@@ -7,6 +7,7 @@ chai.use(chaiHttp);
 const connection = require('../lib/connection');
 const app = require('../lib/app');
 const body = require('../lib/routes/parse-body');
+const parseBody = require('body-parser');
 
 describe('films', () => {
 
