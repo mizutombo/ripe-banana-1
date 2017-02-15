@@ -8,7 +8,8 @@
     "pretest": "npm run lint",
     "test": "mocha --recursive",
     "test:watch": "npm run test -- -w",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "test:studios": "mocha ./test/api/studios.test"
   },
   "repository": {
     "type": "git",
