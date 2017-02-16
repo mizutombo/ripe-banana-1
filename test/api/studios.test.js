@@ -62,8 +62,23 @@ describe('studio API', () => {
         return request.post('/studios')
             .send(testStudio)
             .then(res => {
+                testStudio._id = res.body._id; // to use in PUT test
                 assert.equal(res.body.name, testStudio.name);
             }); 
+    });
+
+    it('PUTs an updated studio in', () => {
+        testStudio.name = 'Walt Disney Studios';
+
+        return request.put(`/studios/${testStudio._id}`)
+            .send(testStudio)
+            .then(res => {
+                assert.equal(res.body._id, testStudio._id);
+                return request.get(`/studios/${testStudio._id}`);
+            })
+            .then(res => {
+                assert.deepEqual(res.body.name, testStudio.name);
+            });
     });
 
 });
