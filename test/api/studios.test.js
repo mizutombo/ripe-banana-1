@@ -21,6 +21,15 @@ const getData = collection => {
 describe('studio API', () => {
     let marvelStudioId = null; // used to test for GET/:id
 
+    const testStudio = {
+        name: 'Disney',
+        address: {
+            city: 'Los Angeles',
+            state: 'California',
+            country: 'USA'
+        }
+    }
+
     // drop database before a new test iteration
     before(() => connection.dropDatabase());
 
@@ -45,7 +54,7 @@ describe('studio API', () => {
     it('GETs one studio with a matching id', () => {
         return request.get(`/studios/${marvelStudioId}`)
             .then(res => {
-                console.log('rezzbod is..', res.body);
+                assert.equal(marvelStudioId, res.body._id);
             });
     });
 
