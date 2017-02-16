@@ -28,7 +28,7 @@ describe('studio API', () => {
             state: 'California',
             country: 'USA'
         }
-    }
+    };
 
     // drop database before a new test iteration
     before(() => connection.dropDatabase());
@@ -56,6 +56,14 @@ describe('studio API', () => {
             .then(res => {
                 assert.equal(marvelStudioId, res.body._id);
             });
+    });
+
+    it('POSTs a new studio', () => {
+        return request.post('/studios')
+            .send(testStudio)
+            .then(res => {
+                assert.equal(res.body.name, testStudio.name);
+            }); 
     });
 
 });
