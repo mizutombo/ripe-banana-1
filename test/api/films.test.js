@@ -19,18 +19,18 @@ describe('films REST HTTP API', () => {
 
 	const godzilla = {
 		title: 'Godzilla',
-		studio: 'Toho',
-		released: '1954-11-3',
-		actors: 'Akira Takarada',
-		reviews: ''
+		studio: '589a503f2fe3c376dc88b890',
+		released: '1954-11-03T00:00:00.000Z',
+		actors: '589a503f2fe3c376dc88b795',
+		reviews: []
 	};
 
 	let mothra = {
 		title: 'Mothra',
 		studio: 'Toho',
-		released: '1961-6-30',
+		released: '1961-06-30',
 		actors: 'Frankie Sakai',
-		reviews: ''
+		reviews: []
 	};
 
 	let invasion_of_astro_monster = {
@@ -38,7 +38,7 @@ describe('films REST HTTP API', () => {
 		studio: 'Toho',
 		released: '1965-12-19',
 		actors: 'Akira Takarada',
-		reviews: ''
+		reviews: '[]'
 	};	
 
 	it('/GET returns empty array of films', () => { // passes test
@@ -50,24 +50,27 @@ describe('films REST HTTP API', () => {
 	function saveFilm(film) {
 		return request.post('/films')
 			.send(film)
-			.then(res => res.body);
+			.then(res => { return res.body; });
 	}
 
 	it('/POST saves a film', () => {
-		return saveFilm(godzilla);
-			// .then(savedFilm => {
-			// 	assert.isOk(savedFilm._id);
-			// 	godzilla._id = savedFilm._id;
-			// 	godzilla.__v = 0;
-			// 	assert.deepEqual(savedFilm, godzilla);
-			// });
+		return saveFilm(godzilla)
+			.then(savedFilm => {
+				assert.equal(savedFilm.title, godzilla.title);
+				assert.equal(savedFilm.studio, godzilla.studio);
+				assert.equal(savedFilm.released, godzilla.released);
+				assert.deepEqual(savedFilm.actors, godzilla.actors);
+				assert.deepEqual(savedFilm.reviews, godzilla.reviews);
+				assert.isOk(savedFilm._id);
+				godzilla._id = savedFilm._id;
+			});
 	});
 
-	it('/GET retrieves saved film', done => {
+	it('/GET retrieves saved film', () => {
 		return request.get(`/films/${godzilla._id}`)
 			.then(res => {
+				console.log('in get', res.body);
 				assert.deepEqual(res.body, godzilla);
-				done();
 			});
 	});
 
@@ -107,6 +110,17 @@ describe('films REST HTTP API', () => {
 			.then(res => {
 				assert.isTrue(res.body.deleted);
 			});
+	});
+
+	it('GET/:id returns 404 error on non-existing id', () => {
+		return request.get('/films/589a503f2fe3c376dc88b895')
+			.then(
+				() => { throw new Error('200 successful status code not expected'); },
+				res => {
+					assert.equal(res.status, 404);
+					assert.ok(res.response.body.error);
+				}
+			);
 	});
 
 });
