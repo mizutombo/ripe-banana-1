@@ -11,7 +11,7 @@ const app = require('../../lib/app');
 
 // const parseBody = require('body-parser').json();
 
-describe('films REST HTTP API', () => {
+describe('Test films REST HTTP API : ', () => {
 
 	before(() => mongoose.connection.dropDatabase());
 
@@ -21,7 +21,7 @@ describe('films REST HTTP API', () => {
 		title: 'Godzilla',
 		studio: '589a503f2fe3c376dc88b890',
 		released: '1954-11-03T00:00:00.000Z',
-		actors: '589a503f2fe3c376dc88b795',
+		actors: ['589a503f2fe3c376dc88b795'],
 		reviews: []
 	};
 
@@ -29,7 +29,7 @@ describe('films REST HTTP API', () => {
 		title: 'Mothra',
 		studio: 'Toho',
 		released: '1961-06-30',
-		actors: 'Frankie Sakai',
+		actors: ['Frankie Sakai'],
 		reviews: []
 	};
 
@@ -37,11 +37,11 @@ describe('films REST HTTP API', () => {
 		title: 'Invasion of Astro-Monster',
 		studio: 'Toho',
 		released: '1965-12-19',
-		actors: 'Akira Takarada',
-		reviews: '[]'
+		actors: ['Akira Takarada'],
+		reviews: []
 	};	
 
-	it('/GET returns empty array of films', () => { // passes test
+	it('test for /GET returns empty array of films', () => { // passes test
 		return request.get('/films')
 			.then(req => req.body)
 			.then(films => assert.deepEqual(films, []));
@@ -53,20 +53,20 @@ describe('films REST HTTP API', () => {
 			.then(res => { return res.body; });
 	}
 
-	it('/POST saves a film', () => {
+	it('test for /POST saves a film', () => {
 		return saveFilm(godzilla)
 			.then(savedFilm => {
 				assert.equal(savedFilm.title, godzilla.title);
 				assert.equal(savedFilm.studio, godzilla.studio);
 				assert.equal(savedFilm.released, godzilla.released);
-				assert.deepEqual(savedFilm.actors, godzilla.actors);
-				assert.deepEqual(savedFilm.reviews, godzilla.reviews);
+				assert.equal(savedFilm.actors, godzilla.actors);
+				assert.equal(savedFilm.reviews, godzilla.reviews);
 				assert.isOk(savedFilm._id);
 				godzilla._id = savedFilm._id;
 			});
 	});
 
-	it('/GET retrieves saved film', () => {
+	it('test for /GET retrieves saved film', () => {
 		return request.get(`/films/${godzilla._id}`)
 			.then(res => {
 				console.log('in get', res.body);
@@ -74,7 +74,7 @@ describe('films REST HTTP API', () => {
 			});
 	});
 
-	it('/GET returns list of all films after POST', () => {
+	it('test for /GET returns list of all films after POST', () => {
 		return Promise.all([
 			saveFilm(mothra),
 			saveFilm(invasion_of_astro_monster)
@@ -90,7 +90,7 @@ describe('films REST HTTP API', () => {
 		});
 	});
 
-	it('/PUT updates films with new data', () => {
+	it('test for /PUT updates films with new data', () => {
 		invasion_of_astro_monster.title = 'Monster Zero';
 		const url = `/films/${invasion_of_astro_monster._id}`;
 
@@ -105,14 +105,14 @@ describe('films REST HTTP API', () => {
 			});
 	});
 
-	it('/DELETE film from films list', () => {
+	it('test for /DELETE film from films list', () => {
 		return request.del(`/films/${mothra._id}`)
 			.then(res => {
 				assert.isTrue(res.body.deleted);
 			});
 	});
 
-	it('GET/:id returns 404 error on non-existing id', () => {
+	it('test for GET/:id returns 404 error on non-existing id', () => {
 		return request.get('/films/589a503f2fe3c376dc88b895')
 			.then(
 				() => { throw new Error('200 successful status code not expected'); },
