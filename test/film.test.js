@@ -2,10 +2,10 @@ const Film = require('../lib/models/film');
 const assert = require('chai').assert;
 const film = new Film();
 
-describe('Film data schema :', () => {
+describe('Test film data schema : ', () => {
 
 	it('checks for required "title" data', done => {
-		film.title = 'Godzilla';
+		film.title = '';
 		film.validate(err => {
 			assert.isOk(err, 'film title is required');
 			done();
