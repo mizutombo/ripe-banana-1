@@ -19,16 +19,16 @@ describe('Test films REST HTTP API : ', () => {
 
 	const godzilla = {
 		title: 'Godzilla',
-		studio: '589a503f2fe3c376dc88b890',
+		studio: 'Toho',
 		released: '1954-11-03T00:00:00.000Z',
-		actors: ['589a503f2fe3c376dc88b795'],
+		actors: ['Akira Takarada'],
 		reviews: []
 	};
 
 	let mothra = {
 		title: 'Mothra',
 		studio: 'Toho',
-		released: '1961-06-30',
+		released: '1961-06-30T00:00:00.000Z',
 		actors: ['Frankie Sakai'],
 		reviews: []
 	};
@@ -36,7 +36,7 @@ describe('Test films REST HTTP API : ', () => {
 	let invasion_of_astro_monster = {
 		title: 'Invasion of Astro-Monster',
 		studio: 'Toho',
-		released: '1965-12-19',
+		released: '1965-12-19T00:00:00.000Z',
 		actors: ['Akira Takarada'],
 		reviews: []
 	};	
